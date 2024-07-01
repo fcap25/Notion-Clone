@@ -1,19 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-
-interface Block {
-  id: string;
-  type: string;
-  content: string;
-  textType?: string;
-  src?: string;
-  height?: string;
-  width?: string;
-}
+import { Block } from '../types';
 
 interface BlockContextType {
   blocks: Block[];
-  addBlock: (block: Block) => void;
+  addBlock: (block: Omit<Block, 'id'>) => void;
   updateBlock: (block: Block) => void;
 }
 
@@ -28,8 +19,9 @@ export const BlockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       .catch(error => console.error('Error fetching blocks:', error));
   }, []);
 
-  const addBlock = (block: Block) => {
-    axios.post('/api/blocks', block)
+  const addBlock = (block: Omit<Block, 'id'>) => {
+    const newBlock = { ...block, id: Date.now().toString() };
+    axios.post('/api/blocks', newBlock)
       .then(response => setBlocks([...blocks, response.data]))
       .catch(error => console.error('Error adding block:', error));
   };
