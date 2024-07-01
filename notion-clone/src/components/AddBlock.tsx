@@ -21,7 +21,7 @@ const AddBlock: React.FC = () => {
         <option value="text">Text</option>
         <option value="image">Image</option>
       </Select>
-      <Button onClick={createBlock} mt={2}>Add Block</Button>
+      <Button onClick={createBlock} mt={2} mb={2}>Add Block</Button>
     </Box>
   );
 };
